@@ -67,10 +67,23 @@ async function postCocktail(c) {
   };
 }
 
+async function patchCocktail(cname, data) {
+  let props = [];
+  for (const prop in data) props.push(`${prop} = '${data[prop]}'`);
+  await db.query(`UPDATE cocktail SET ${props.join(',')} WHERE cname = $1`, [cname]);
+
+  return {
+    code: 200,
+    data: `updated to ${data.preis}`,
+  };
+}
+
+
 module.exports = {
   getCocktails,
   getZutaten,
   getCocktailByPrice,
   delCocktail,
-  postCocktail
+  postCocktail,
+  patchCocktail,
 };
