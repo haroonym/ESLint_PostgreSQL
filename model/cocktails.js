@@ -49,7 +49,7 @@ async function delCocktail(cname) {
     await db.query('DELETE FROM cocktail WHERE cname = $1', [cname]);
     return {
       code: 200,
-      data: true,
+      data: 'Deleted',
     };
   }
 }
