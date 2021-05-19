@@ -18,3 +18,9 @@ Content-Type: application/json
     "sgid": 1
 }
 ###
+PATCH http://127.0.0.1:3000/cocktails/Alice
+Content-Type: application/json
+
+{
+    "preis": 99.99
+}

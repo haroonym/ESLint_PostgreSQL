@@ -7,6 +7,7 @@ const {
   getCocktailByPrice,
   delCocktail,
   postCocktail,
+  patchCocktail,
 } = require('../model/cocktails');
 
 router.get(
@@ -45,6 +46,14 @@ router.post(
   '/cocktails',
   asyncHandler(async (req, res) => {
     const result = await postCocktail(req.body);
+    res.status(result.code).json(result);
+  }),
+);
+
+router.patch(
+  '/cocktails/:cname',
+  asyncHandler(async (req, res) => {
+    const result = await patchCocktail(req.params.cname, req.body);
     res.status(result.code).json(result);
   }),
 );
