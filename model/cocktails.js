@@ -41,8 +41,22 @@ async function getCocktailByPrice(preis) {
     };
 }
 
+async function delCocktail(cname) {
+  const { rows } = await db.query('SELECT * FROM cocktail WHERE cname = $1', [cname]);
+  if (rows.length > 0) {
+    await db.query('DELETE FROM besteht WHERE cid = (SELECT cid FROM cocktail WHERE cname = $1)', [cname]);
+    await db.query('DELETE FROM bestellt WHERE cid = (SELECT cid FROM cocktail WHERE cname = $1)', [cname]);
+    await db.query('DELETE FROM cocktail WHERE cname = $1', [cname]);
+    return {
+      code: 200,
+      data: true,
+    };
+  }
+}
+
 module.exports = {
   getCocktails,
   getZutaten,
   getCocktailByPrice,
+  delCocktail,
 };
