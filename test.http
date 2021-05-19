@@ -5,3 +5,16 @@ GET http://127.0.0.1:3000/cocktails/Alice/zutaten
 GET http://127.0.0.1:3000/cocktails/7.2
 ###
 DELETE http://127.0.0.1:3000/cocktails/Cinderella
+###
+POST http://127.0.0.1:3000/cocktails
+Content-Type: application/json
+
+{
+    "cname": "Hit and Run",
+    "preis": 12.22,
+    "zubereitung": "eo ipso",
+    "kid": 1,
+    "zgid": 1,
+    "sgid": 1
+}
+###
