@@ -15,30 +15,30 @@ async function getZutaten(cname) {
     'SELECT zbez FROM cocktail JOIN besteht b on cocktail.cid = b.cid JOIN zutat z on b.zid = z.zid WHERE cname = $1',
     [cname],
   );
-  if (rows.length > 0)
+  if (rows.length > 0) {
     return {
       code: 200,
       data: rows,
     };
-  else
-    return {
-      code: 404,
-      data: `the specified cocktail with the Name ${cname} was not found in the database`,
-    };
+  }
+  return {
+    code: 404,
+    data: `the specified cocktail with the Name ${cname} was not found in the database`,
+  };
 }
 
 async function getCocktailByPrice(preis) {
   const { rows } = await db.query('SELECT cname, preis FROM cocktail WHERE preis <= $1', [preis]);
-  if (rows.length > 0)
+  if (rows.length > 0) {
     return {
       code: 200,
       data: rows,
     };
-  else
-    return {
-      code: 404,
-      data: `Es wurde kein Cocktail mit dem Preis unter ${preis} in der Datenbank gefunden`,
-    };
+  }
+  return {
+    code: 404,
+    data: `Es wurde kein Cocktail mit dem Preis unter ${preis} in der Datenbank gefunden`,
+  };
 }
 
 async function delCocktail(cname) {
@@ -52,6 +52,10 @@ async function delCocktail(cname) {
       data: 'Deleted',
     };
   }
+  return {
+    code: 404,
+    data: `Es wurde kein Cocktail mit dem Namen ${cname} in der Datenbank gefunden`,
+  };
 }
 
 async function postCocktail(c) {
@@ -77,7 +81,6 @@ async function patchCocktail(cname, data) {
     data: `updated to ${data.preis}`,
   };
 }
-
 
 module.exports = {
   getCocktails,

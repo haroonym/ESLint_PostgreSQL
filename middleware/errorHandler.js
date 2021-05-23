@@ -15,3 +15,5 @@ const notFound = (req, res) => {
 };
 
 module.exports = { errorHandler, notFound };
+
+// Asynchandler fängt Fehler und hier werden die Fehler bearbeitet
