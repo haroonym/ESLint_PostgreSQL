@@ -4,6 +4,7 @@ const errorHandler = (err, req, res, next) => {
     code: 500,
     data: 'Server error',
   });
+  next();
 };
 
 const notFound = (req, res) => {

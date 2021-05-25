@@ -27,18 +27,23 @@ async function getZutaten(cname) {
   };
 }
 
-async function getCocktailByPrice(preis) {
-  const { rows } = await db.query('SELECT cname, preis FROM cocktail WHERE preis <= $1', [preis]);
-  if (rows.length > 0) {
+async function getCocktailByPrice(query) {
+  const { preis } = query;
+  if (preis) {
+    const { rows } = await db.query('SELECT cname, preis FROM cocktail WHERE preis <= $1', [preis]);
+    if (rows.length > 0) {
+      return {
+        code: 200,
+        data: rows,
+      };
+    }
+  } else {
+    const { rows } = await db.query('SELECT cname, preis from cocktail');
     return {
       code: 200,
       data: rows,
     };
   }
-  return {
-    code: 404,
-    data: `Es wurde kein Cocktail mit dem Preis unter ${preis} in der Datenbank gefunden`,
-  };
 }
 
 async function delCocktail(cname) {
@@ -54,15 +59,15 @@ async function delCocktail(cname) {
   }
   return {
     code: 404,
-    data: `Es wurde kein Cocktail mit dem Namen ${cname} in der Datenbank gefunden`,
+    data: 'Not Found',
   };
 }
 
 async function postCocktail(c) {
-  let { rows } = await db.query('SELECT MAX(cid) AS max FROM cocktail');
-  let cid = rows[0].max + 1;
+  const { rows } = await db.query('SELECT MAX(cid) AS max FROM cocktail');
+  const cid = rows[0].max + 1;
   await db.query(
-    `INSERT INTO cocktail (cid, cname, preis, zubereitung, kid, zgid, sgid) VALUES($1,$2,$3,$4,$5,$6,$7)`,
+    'INSERT INTO cocktail (cid, cname, preis, zubereitung, kid, zgid, sgid) VALUES($1,$2,$3,$4,$5,$6,$7)',
     [cid, c.cname, c.preis, c.zubereitung, c.kid, c.zgid, c.sgid],
   );
   return {
@@ -72,7 +77,7 @@ async function postCocktail(c) {
 }
 
 async function patchCocktail(cname, data) {
-  let props = [];
+  const props = [];
   for (const prop in data) props.push(`${prop} = '${data[prop]}'`);
   await db.query(`UPDATE cocktail SET ${props.join(',')} WHERE cname = $1`, [cname]);
 

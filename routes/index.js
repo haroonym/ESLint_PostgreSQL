@@ -12,13 +12,13 @@ const {
   patchCocktail,
 } = require('../model/cocktails');
 
-router.get(
-  '/cocktails',
-  asyncHandler(async (req, res) => {
-    const result = await getCocktails();
-    res.status(result.code).json(result);
-  }),
-);
+// router.get(
+//   '/cocktails',
+//   asyncHandler(async (req, res) => {
+//     const result = await getCocktails();
+//     res.status(result.code).json(result);
+//   }),
+// );
 
 router.get(
   '/cocktails/:cname/zutaten',
@@ -29,9 +29,9 @@ router.get(
 );
 
 router.get(
-  '/cocktails/:preis',
+  '/cocktails',
   asyncHandler(async (req, res) => {
-    const result = await getCocktailByPrice(req.params.preis);
+    const result = await getCocktailByPrice(req.query);
     res.status(result.code).json(result);
   }),
 );
